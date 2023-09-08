@@ -1,62 +1,109 @@
 package Banco;
+/**
+ * @author edcet 
 
-import java.util.ArrayList;
-import java.util.List;
+ * @version 001
+ */
+	
+/**
+Condiciones inciales: $10,000.00 de saldo.
 
-public class Banco {
-	private List<Atm> cajeros;
+Opciones del cajero:
+    1) Retirar dinero
+    2) Hacer depósitos
+    3) Consultar saldo
+    4) Quejas
+    5) Ver últimos movimientos
+    9) Salir del cajero
+    
+   Dónde:
 
-	public Banco() {
-		this.cajeros = new ArrayList<>();
-	}
+1) Retirar dinero:
 
-	public void agregarCajero(Atm cajero) {
-		cajeros.add(cajero);
-	}
+   Mostrar la cantidad disponible a retirar.
+   No se puede retirar más de $6,000.00
+   Solo se puede retirar múltiplos de $50.00
+   Una vez retirado el monto preguntar: ¿Desea donar $200 para la graduacón de ch30?
 
-	public List<Atm> getCajeros() {
-		return cajeros;
-	}
+2) Hacer depósitos
 
-	public static void main(String[] args) {
-		Banco miBanco = new Banco();
+   Mostrar un nuevo menú para depositar a:
 
-		Atm cajero1 = new Atm(12345);
-		Atm cajero2 = new Atm(67890);
+       Cuenta de cheques
 
-		miBanco.agregarCajero(cajero1);
-		miBanco.agregarCajero(cajero2);
+           Sumar la cantidad depositada al saldo disponible
+           Solo depósitos múltiplos de $50
+       Depósito a Tarjeta de Crédito
 
-		// Acceder a la lista de cajeros del banco
-		List<Atm> listaCajeros = miBanco.getCajeros();
+           Restar al saldo disponible
+           Se puede incluir decimales (2 decimales, por ejemplo: $100.23)
 
-		// Realizar operaciones en los cajeros
-		for (Atm cajero : listaCajeros) {
-			cajero.deposit(1000.0);
-			cajero.deposit(500);
-			cajero.deposit(60);
-			//cajero.deposit(-1.1);
-			cajero.deposit(3.45);
-			System.out.println("Saldo en el cajero del banco (" + cajero.getSerialNumber() + "): " + cajero.getBalance());
-		}
-		
-		// obtener los logs de cada cajero
-				for (Atm cajero : listaCajeros) {
-					atmTransactionLog(cajero);
-					}
-		
-	}
+3) Consultar saldo
 
-	static void atmTransactionLog(Atm cajero ) {
+   Mostrar el saldo disponible
 
-		ArrayList<String> log = cajero.getLog();
+4) Quejas
 
-		System.out.println("Registro de operaciones:");
-		for (String entry : log) {
-			System.out.println(entry);
-		}
-	}
+   Mostrar el mensaje: "No disponible por el momento, intente más tarde"
 
+5) Ver últimos movimientos (Los 5 últimos)
+
+   Mostrar los movimientos: depósitos y retiros
+       Formato para mostrar
+            YYYY/MM/DD hh:mm Retiro de $500
+            YYYY/MM/DD hh:mm Depósito a TC de $300.12
+            YYYY/MM/DD hh:mm Retiro de $300
+            YYYY/MM/DD hh:mm Retiro de $100
+            YYYY/MM/DD hh:mm Depósito a TC de $30.11
+
+9) Salir del cajero
+
+   Despide y sale del cajero.
+
+Notas: 
+
+   Si se pulsa una opción inválida (ej. 6, 7, 8), mostrar un mensaje similar a: "Opción inválida, por favor, vuelva a intentar".
+   Si por 3 veces consecutivas se pulsa una opción inválida, se despide y se sale del sistema.
+   En caso de que se pulse una opción inválida y luego se pulse una opción válida, esto no debe contar como parte de las veces consecutivas que se equivoca el usuario. 
+*/
+
+//Clase abstracta Banco 
+public abstract class Banco {
+ protected int ID;
+ protected double balance;
+
+ public Banco(int ID, double balance) {
+     this.ID = ID;
+     this.balance = balance;
+ }
+ 
+ 
+
+ public int getID() {
+	return ID;
 }
 
 
+
+public void setID(int iD) {
+	ID = iD;
+}
+
+
+
+public double getBalance() {
+	return balance;
+}
+
+
+
+public void setBalance(double balance) {
+	this.balance = balance;
+}
+
+
+
+public abstract void deposito(double cantidad);
+ 
+ public abstract void retiro(double cantidad);
+}
